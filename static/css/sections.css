@@ -1,0 +1,51 @@
+/* home.css */
+
+/* base.css (or your custom CSS file) */
+
+.home-section {
+    padding: 2rem;
+    /* Add padding around the content */
+}
+
+.welcome-text {
+    flex: 1;
+    /* Take remaining space */
+}
+
+.welcome-text h1 {
+    font-size: 2em;
+    /* Example: Adjust font size */
+    margin-bottom: 10px;
+    /* Example: Add margin below heading */
+}
+
+.welcome-text p {
+    font-size: 1.2em;
+    /* Example: Adjust font size */
+    color: #666;
+    /* Example: Adjust text color */
+}
+
+.image-container img {
+    max-width: 100%;
+    /* Ensure images do not exceed their container */
+    height: auto;
+    /* Maintain aspect ratio */
+    display: block;
+    /* Prevent inline images from disrupting layout */
+
+}
+
+.image-container {
+    display: flex;
+    align-items: center;
+    /* Center items horizontally */
+    text-align: center;
+    /* Center text within the div */
+}
+
+/*Market*/
+.chart-container{
+    width:80%;
+    margin:auto;
+}

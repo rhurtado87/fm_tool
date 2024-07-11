@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit stock{% endblock title %}
+{% block content %}
+<h2>Stock Widget</h2>
+
+{% if error_message %}
+    <p>{{ error_message }}</p>
+{% else %}
+    <p>Symbol: {{ symbol }}</p>
+    <p>Latest Price: ${{ latest_price }}</p>
+{% endif %}
+
+{% endblock content %}

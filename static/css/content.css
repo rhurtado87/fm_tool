@@ -1,0 +1,8 @@
+.watchlist-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+.watchlist {
+    flex: 1;
+} 
