@@ -135,6 +135,6 @@ LOGOUT_REIRECT_URL = 'protfolio'
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # store API keys Securely
-ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY', 'J5J98T8EXEPFV486')
+#ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY', 'J5J98T8EXEPFV486')
 #STOCK_API_KEY ='J5J98T8EXEPFV486'
 
