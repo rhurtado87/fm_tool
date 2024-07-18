@@ -121,8 +121,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]
+# directory where collectstatic will copy files for deployment STATIC_ROOT
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [str(BASE_DIR.joinpath("static")),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -130,7 +134,7 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'portfolio'
-LOGOUT_REIRECT_URL = 'protfolio'
+LOGOUT_REIRECT_URL = 'portfolio'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 

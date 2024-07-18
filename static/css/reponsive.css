@@ -28,8 +28,6 @@ Following the Microsoft documentation.
         .nav-option {
             display: block;
             flex-direction: column;
-            /* Stack links vertically */
-            /* Other adjustments for smaller screens */
         }
 
         .nav-btn {

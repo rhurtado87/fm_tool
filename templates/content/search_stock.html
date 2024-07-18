@@ -8,7 +8,7 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="">Search</button>
+            <button class="btn-primary" type="submit" class="">Search</button>
         </form>
         
         {% if stock %}
@@ -17,7 +17,7 @@
                 <p>{{ stock.symbol }} - {{ stock.name }} - Price: {{ stock.price }}</p>
                 <form action="{% url 'add_to_wishlist' stock.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="">Add to Wishlist</button>
+                    <button class="btn-primary" type="submit" class="">Add to Wishlist</button>
                 </form>
             </div>
         {% endif %}

@@ -1,29 +1,63 @@
+<!-- wishlist.html -->
+
 {% extends 'base.html' %}
 
 {% block content %}
 <div class="watchlist-section">
-    <div class="center-row">
+    <div class="center-column">
         <h3>Your Wishlist</h3>
+
         {% if wishlist_items %}
-            <ul>
-                {% for item in wishlist_items %}
-                    <li>{{ item.stock.name }} - {{ item.stock.symbol }} - Price: {{ item.stock.price }}
-                        <form action="{% url 'remove_from_wishlist' item.stock.id %}" method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" onclick="return confirm('Are you sure you want to remove {{ item.stock.name }} from your watchlist?');">Remove</button>
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% for item in wishlist_items %}
+                <div class="wishlist-item">
+                    <h4>{{ item.stock.name }} - {{ item.stock.symbol }}</h4>
+                    <canvas id="chart_{{ item.stock.id }}" width="400" height="200"></canvas>
+                    <p>Price: {{ item.stock.price }}</p>
+                    <form action="{% url 'remove_from_wishlist' item.stock.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button class='btn-remove' type="submit" onclick="return confirm('Are you sure you want to remove {{ item.stock.name }} from your watchlist?');">Remove</button>
+                    </form>
+                </div>
+            {% endfor %}
         {% else %}
             <p>Your wishlist is empty.</p>
         {% endif %}
     </div>
-    
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} mt-3">
-            {{ message }}
-        </div>
-    {% endfor %}
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    {% for item in wishlist_items %}
+        var ctx_{{ item.stock.id }} = document.getElementById('chart_{{ item.stock.id }}').getContext('2d');
+        var labels_{{ item.stock.id }} = [];
+        var prices_{{ item.stock.id }} = [];
+
+        // Populate data for each wishlist item
+        labels_{{ item.stock.id }}.push("{{ item.stock.name }} - {{ item.stock.symbol }}");
+        prices_{{ item.stock.id }}.push({{ item.stock.price }});
+
+        var chart_{{ item.stock.id }} = new Chart(ctx_{{ item.stock.id }}, {
+            type: 'line',  // Example: Line chart for stock prices
+            data: {
+                labels: labels_{{ item.stock.id }},
+                datasets: [{
+                    label: 'Stock Prices',
+                    data: prices_{{ item.stock.id }},
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    {% endfor %}
+});
+</script>
 {% endblock %}

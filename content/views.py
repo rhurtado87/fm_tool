@@ -5,7 +5,6 @@ from .models import Stock, Wishlist
 from .forms import StockSearchForm
 from django.contrib.auth.decorators import login_required
 
-
 # Function to fetch stock data from Yahoo Finance
 def fetch_stock_from_yahoo(company_name):
     try:
@@ -28,8 +27,6 @@ def fetch_stock_from_yahoo(company_name):
         error_msg = f"Error fetching data: {str(e)}"
         print(error_msg)
         return None, error_msg
-
-
 
 @login_required
 def wishlist_view(request):
@@ -55,36 +52,35 @@ def search_stock(request):
 
                 if created or not Wishlist.objects.filter(user=request.user, stock=stock).exists():
                     Wishlist.objects.create(user=request.user, stock=stock)
-                    messages.success(request, f"{stock_data['name']} added to your wishlist.")
+                    messages.success(request, f"{stock_data['name']} added to your Watchlist.")
                 else:
-                    messages.info(request, f"{stock_data['name']} is already in your wishlist.")
+                    messages.info(request, f"{stock_data['name']} is already in your Watchlist.")
 
             else:
                 messages.error(request, error if error else f"No stock data found for {company_name}.")
-    
+
     return render(request, 'content/search_stock.html', {'form': form, 'stock': stock})
 
-
+@login_required
 def add_to_wishlist(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
-    
+
     if request.method == 'POST':
         wishlist_item, created = Wishlist.objects.get_or_create(user=request.user, stock=stock)
         if created:
             messages.success(request, f"{stock.name} added to your Watchlist.")
         else:
             messages.info(request, f"{stock.name} is already in your Watchlist.")
-    
-    return redirect('wishlist')
 
+    return redirect('wishlist')
 
 @login_required
 def remove_from_wishlist(request, stock_id):
     wishlist_item = get_object_or_404(Wishlist, user=request.user, stock__id=stock_id)
-    
+
     if request.method == 'POST':
         stock_name = wishlist_item.stock.name
         wishlist_item.delete()
         messages.success(request, f"{stock_name} removed from your wishlist.")
-    
+
     return redirect('wishlist')
