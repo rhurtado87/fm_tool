@@ -5,10 +5,31 @@
 
 {% block content %}
 <h1>Blog Posts</h1>
-<ul>
+<ul class="post-list">
     {% for post in posts %}
-        <li>
-            <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+        <li class="post-item">
+            <div class="post-avatar">
+                <img src="{{ post.author.userprofile.avatar.url }}" alt="{{ post.author.username }}" />
+            </div>
+            <div class="post-details">
+                <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+                <p>Posted by {{ post.author.username }} on {{ post.created_at|date:"F j, Y, g:i a" }}</p>
+                <p>
+                    Comments: {{ post.comment_count }} |
+                    Likes: {{ post.like_count }}
+                    <form method="post" action="{% url 'like_post' post.pk %}" class="like-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-like">
+                            <i class="fas fa-thumbs-up {% if user in post.likes.all %}liked{% endif %}"></i>
+                            {% if user in post.likes.all %}
+                                Unlike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </button>
+                    </form>
+                </p>
+            </div>
         </li>
     {% empty %}
         <li>No posts available.</li>

@@ -1,19 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
 
-
-{% block title  %}{{ post.title }}{% endblock title  %}
+{% block title %}Post Detail{% endblock title %}
 
 {% block content %}
-<<head>
-    <title>{{ post.title }}</title>
-</head>
-<body>
-    <h1>{{ post.title }}</h1>
-    <p>by {{ post.author }}</p>
-    <p>{{ post.body }}</p>
-    <p>Created at: {{ post.created_at }}</p>
-    <p>Updated at: {{ post.updated_at }}</p>
-    <a href="{% url 'post_edit' post.pk %}">Edit Post</a>
-    <a href="{% url 'post_list' %}">Back to List</a>
-</body>
+<h1>{{ post.title }}</h1>
+<div>
+    <p>Posted by {{ post.author.username }} on {{ post.created_at|date:"F j, Y, g:i a" }}</p>
+    <div>
+        <p>{{ post.body }}</p>
+    </div>
+</div>
+
+<div class="comments">
+    <h2>Comments</h2>
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <p><strong>{{ comment.author.username }}:</strong> {{ comment.body }}</p>
+                    <p><small>Posted on {{ comment.created_at|date:"F j, Y, g:i a" }}</small></p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+</div>
+
+{% if user.is_authenticated %}
+    <div class="comment-form">
+        <h3>Add a Comment</h3>
+        <form method="post" action="{% url 'post_detail' post.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+{% else %}
+    <p>You must be logged in to comment.</p>
+{% endif %}
 {% endblock content %}
