@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_select2',
     'pages',
     'content',
     'accounts',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +90,8 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
+AUTH_USER_MODERL = 'your_app.CustomUser'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -125,16 +129,21 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [str(BASE_DIR.joinpath("static")),
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Your project's static files
+    BASE_DIR / 'node_modules/bootstrap/dist/',  # Bootstrap CSS location
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'portfolio'
-LOGOUT_REIRECT_URL = 'portfolio'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REIRECT_URL = 'dashboard'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 

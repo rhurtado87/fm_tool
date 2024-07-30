@@ -4,14 +4,12 @@
 {% block title %}Contact Me{% endblock title %}
 
 {% block content %}
+
 <div class="contact center-column">
     <h1>Lets get in touch </h1>
     <h2>Please use the form below:</h2>
-    <div>
-
-    </dvi>
-
-    <form action="contact" method="post" class='contact-form'>
+    
+    <form id='contactForm' method="post" class='contact-form'>
         {% csrf_token %}
         <div class="form-group">
             {{ form.name }}
@@ -26,6 +24,7 @@
         </div>
 
         <button class='btn btn-primary' type="submit">Send Message</button>
-    </form>
+        </form>
+    </div>
 </div>
-{% endblock content %}
+{% endblock %}

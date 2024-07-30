@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Account/Dashboard - {{ user.username }}{% endblock %}
+
+{% block content %}
+<section class="db-section">
+    <div class="row">
+        <div class="col-md-2">
+            <!-- Displaying avatar in template -->
+            {% if user.userprofile.avatar %}
+                <img src="{{ user.userprofile.avatar.url }}" alt="Avatar" class="avatar-preview">
+            {% else %}
+                <!-- Default avatar image if user has no avatar -->
+                <img src="{% static 'img/default-avatar.png' %}" alt="Default Avatar" class="img-fluid">
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <h1>Welcome, {{ user.username }}</h1>
+            <h3>Your Dashboard content</h3>
+            <h4>Setting</h4>
+            <a href="{% url 'user_settings' %}"><i class="fas fa-user-circle"></i> Change Avatar</a>
+            <a href="{% url 'password_change' %}"><i class="fas fa-lock"></i> Change Password</a>
+            <!-- Add more user-specific information as needed -->
+        </div>
+    </div>
+</section>
+
+<div class="watchlist-section">
+    <div class="container">
+        <h3>Your Watchlist</h3>
+        {% if dashboard_items %}
+            <div class="row">
+                {% for item in dashboard_items %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.stock.name }} - {{ item.stock.symbol }}</h5>
+                                <!-- Assign a unique id to each canvas element -->
+                                <canvas id="stockChart_{{ forloop.counter }}" width="400" height="200"></canvas>
+                                <p class="card-text">Live Price: {{ item.stock.price|floatformat:2 }}</p>
+
+                                <div class="btn-group" role="group" aria-label="Historical Data Links">
+                                    <button class="btn btn-secondary" onclick="fetchAndRender('{{ item.stock.symbol }}', '1d', '{{ forloop.counter }}')">1 Day</button>
+                                    <button class="btn btn-secondary" onclick="fetchAndRender('{{ item.stock.symbol }}', '5d', '{{ forloop.counter }}')">5 Days</button>
+                                    <button class="btn btn-secondary" onclick="fetchAndRender('{{ item.stock.symbol }}', '1mo', '{{ forloop.counter }}')">1 Month</button>
+                                    <button class="btn btn-secondary" onclick="fetchAndRender('{{ item.stock.symbol }}', '1y', '{{ forloop.counter }}')">1 Year</button>
+                                </div>
+                                <div class="mt-3">
+                                    <form action="{% url 'remove_from_dashboard' item.stock.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to remove {{ item.stock.name }} from your wishlist?');">Remove from Wishlist</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Your wishlist is empty.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- Example of showing alerts -->
+{% if messages %}
+    <div class="alert alert-success">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

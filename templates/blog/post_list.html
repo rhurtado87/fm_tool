@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog Posts{% endblock title %}
+
+{% block content %}
+<h1>Blog Posts</h1>
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+        </li>
+    {% empty %}
+        <li>No posts available.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'post_create' %}">New Post</a>
+{% endblock content %}

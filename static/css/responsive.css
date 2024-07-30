@@ -1,0 +1,108 @@
+/* responsive.css */
+
+/* Media query for medium screens (768px - 1007px) */
+@media (min-width: 768px) and (max-width: 1007px) {
+    html {
+        font-size: 12px;
+    }
+
+    /* Adjust header styles as needed */
+    header {
+        flex-direction: column;
+        height: max-content;
+        padding: 2%;
+    }
+
+    /* Style the hamburger menu button */
+    .nav-btn {
+        display: inline-flex;
+        cursor: pointer; /* Ensure cursor changes on hover */
+    }
+
+    /* Style the spans inside the hamburger menu button */
+    .nav-btn span {
+        display: flex;
+        width: 25px;
+        height: 2px;
+        background-color: var(--neutral-color); /* Adjust color as needed */
+        margin: 5px 0;
+        transition: transform 0.3s ease; /* Smooth transition for transform */
+    }
+
+    /* Toggle the hamburger menu icon */
+    #check-option:checked ~ .nav-btn span:nth-child(1) {
+        transform: translateY(50%) rotate(45deg);
+        background-color: #fff; /* Example background color */
+    }
+
+    #check-option:checked ~ .nav-btn span:nth-child(2) {
+        opacity: 0; /* Hide middle span */
+    }
+
+    #check-option:checked ~ .nav-btn span:nth-child(3) {
+        transform: translateY(-50%) rotate(-45deg);
+        background-color: #fff; /* Example background color */
+    }
+
+    /* Ensure the navigation options are hidden by default */
+    .nav-option {
+        display: none;
+        /* Adjust other styles for navigation options as needed */
+    }
+
+    /* Show navigation options when checkbox is checked */
+    #check-option:checked ~ .nav-option {
+        display: flex; /* Adjust as per your layout */
+        flex-direction: column; /* Example */
+        /* Additional styles for navigation options */
+    }
+
+    /* Circle behind effect styles (if applicable) */
+    .circleBehind a {
+        position: relative;
+        display: inline-block;
+        z-index: 1; /* Ensure links are above pseudo-elements */
+    }
+
+    .circleBehind a:before,
+    .circleBehind a:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        border-radius: 50%;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .circleBehind a:before {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #d5f523; /* Example border color */
+        background: transparent;
+    }
+
+    .circleBehind a:after {
+        width: 22px;
+        height: 22px;
+        border: 2px solid #d5f523; /* Example border color */
+        background: transparent;
+        transition-delay: 0.1s; /* Delay for a smoother effect */
+    }
+
+    .circleBehind a:hover:before {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .circleBehind a:hover:after {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+
+    /* Ensure footer is below menu */
+    .footer {
+        margin-top: 100vh; /* Adjust according to menu height */
+    }
+}

@@ -6,6 +6,30 @@
 
 {% block content %}
 
-<h1>hello word! Gave me all your money</h1>
+<h1>hello world! Gave me all your money</h1>
 
+
+<div class="container">
+    <h1>Transactions</h1>
+    <!-- Your transactions content here -->
+    
+    <!-- Donation Form -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <h2>Make a Donation</h2>
+            <form method="POST" action="{% url 'process_donation' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message (optional)</label>
+                    <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Donate</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %} 

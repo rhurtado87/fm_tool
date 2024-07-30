@@ -14,24 +14,6 @@ def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
 
-        if form.is_vail():
-            #send email
-            email_to = "google@gmail.com"
-            email_from = form.cleaned_data["email"]
-            name = form.changed_data["name"]
-            message = form.cleaned_data["message"]
-
-            html = render_to_string("pages/email.html", request.POST)
-
-            send_mail(
-                "Message from " + name,
-                message,
-                email_from,
-                [email_to],
-                html_message=html
-            )
-            return redirect("contact")
-
     else:
         form = ContactForm()
 
