@@ -1,32 +1,28 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const likeForms = document.querySelectorAll('.like-form');
+    document.getElementById('like-button').addEventListener('click', function() {
+        var button = this;
+        var postId = button.getAttribute('data-post-id');
 
-    likeForms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
-
-            const button = this.querySelector('button');
-            const icon = button.querySelector('i');
-            
-            fetch(this.action, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value,
-                },
-                body: new URLSearchParams(new FormData(this)),
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Toggle icon and button text
-                if (data.liked) {
-                    icon.classList.add('liked');
-                    button.textContent = ' Unlike';
-                } else {
-                    icon.classList.remove('liked');
-                    button.textContent = ' Like';
-                }
-            })
-            .catch(error => console.error('Error:', error));
+        fetch(`/post/${postId}/like/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+            },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response:', data);
+            if (data.liked) {
+                button.textContent = 'Unlike';
+            } else {
+                button.textContent = 'Like';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
         });
     });
 });

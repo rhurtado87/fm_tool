@@ -1,4 +1,3 @@
-# blog/models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -9,7 +8,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    likes = models.ManyToManyField(User, related_name='post_lkes', blank=True)
+    likes = models.ManyToManyField(User, related_name='like_post', blank=True)
 
     def __str__(self):
         return self.title
@@ -20,7 +19,7 @@ class Post(models.Model):
     def comment_count(self):
         return self.comments.count()
 
-class Meta:
+    class Meta:
         ordering = ['-created_at']
 
 class Comment(models.Model):

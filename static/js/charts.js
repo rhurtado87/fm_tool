@@ -1,4 +1,3 @@
-// static/js/charts.js
 
 document.addEventListener('DOMContentLoaded', function() {
   // Data for the chart

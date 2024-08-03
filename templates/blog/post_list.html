@@ -11,29 +11,45 @@
             <div class="post-avatar">
                 <img src="{{ post.author.userprofile.avatar.url }}" alt="{{ post.author.username }}" />
             </div>
-            <div class="post-details">
+             <div class="post-details">
                 <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
                 <p>Posted by {{ post.author.username }} on {{ post.created_at|date:"F j, Y, g:i a" }}</p>
-                <p>
-                    Comments: {{ post.comment_count }} |
-                    Likes: {{ post.like_count }}
-                    <form method="post" action="{% url 'like_post' post.pk %}" class="like-form">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-like">
-                            <i class="fas fa-thumbs-up {% if user in post.likes.all %}liked{% endif %}"></i>
-                            {% if user in post.likes.all %}
-                                Unlike
-                            {% else %}
-                                Like
-                            {% endif %}
-                        </button>
-                    </form>
-                </p>
+                <p>Comments: {{ post.comment_count }} | Likes: {{ post.like_count }}</p>
+
+                <form method="post" action="{% url 'like_post' post.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" name='post_id' value ="{{ post.id }}" class="btn btn-like">
+                        {% if user in post.likes.all %}
+                            Unlike
+                        {% else %}
+                            Like
+                        {% endif %}
+                    </button>
+                </form>
             </div>
         </li>
     {% empty %}
         <li>No posts available.</li>
     {% endfor %}
 </ul>
-<a href="{% url 'post_create' %}">New Post</a>
+<a href="{% url 'post_create' %}" class="btn btn-new-post">
+    <i class="fas fa-plus"></i> New Post
 {% endblock content %}
+
+
+
+<div class= "container text-white">
+<h1> the post details for {{ post.title }} are:</h1>
+<div class='col-md-8 mt-4'>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.created_at }} </p>
+    <p>{{ post.description }}</p>
+    {% for tag in post.tags.all %}
+    <a href="{% url 'post_by_tag' tag.slug %}"> {{tag.name}}</a>
+    {% endfor %}
+    <a href="{% url 'post-list' %}" class="btn btn-primary">Go Back</a>
+    <form action={% url 'blog_likes' pk=post.id %}" method= 'posts'>
+    {% csrf_token %}
+    <button type='submit' name='blog_id' value='{{post.id}}' class="btn btn-primary" ml-3">like</button>
+</form>
+</div>

@@ -1,10 +1,9 @@
-# blog/views.py
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse  
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post
-from .forms import PostForm
-
-from django.http import JsonResponse
+from .forms import PostForm, CommentForm
 
 
 def post_list(request):
@@ -14,7 +13,22 @@ def post_list(request):
 @login_required
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+    comments = post.comments.all()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/post_detail.html', {
+        'post': post,
+        'comments': comments,
+        'form': form
+    })
 
 @login_required
 def post_create(request):
@@ -56,11 +70,6 @@ def post_edit(request, pk):
 
 @login_required
 def post_like(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.user in post.likes.all():
-        post.likes.remove(request.user)
-        liked = False
-    else:
-        post.likes.add(request.user)
-        liked = True
-    return JsonResponse({'liked': liked})
+    post = get_object_or_404(Post, id= request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post_like', args=[str(pk)]))

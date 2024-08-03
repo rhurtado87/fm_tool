@@ -4,6 +4,7 @@
 {% block title %}Post Detail{% endblock title %}
 
 {% block content %}
+<body>
 <h1>{{ post.title }}</h1>
 <div>
     <p>Posted by {{ post.author.username }} on {{ post.created_at|date:"F j, Y, g:i a" }}</p>
@@ -40,4 +41,6 @@
 {% else %}
     <p>You must be logged in to comment.</p>
 {% endif %}
+<a href="{% url 'post_list' %}">Back to Post List</a>
+</body>
 {% endblock content %}

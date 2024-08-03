@@ -148,10 +148,8 @@ header {
     background-color: #333;
     color: #fff;
     padding: 20px;
-    position: fixed;
-    bottom: 0;
     width: 100%;
-    z-index: 1000; /* Ensure footer stays above other content */
+    text-align: center; /* Center align text and icons */
 }
 
 .footer p {
@@ -161,8 +159,7 @@ header {
 .footer .social-icons {
     list-style: none;
     padding: 0;
-    margin-top: 10px;
-    text-align: center; /* Center align the social icons */
+    margin: 10px 0 0; /* Add some space above the icons */
 }
 
 .footer .social-icons li {
@@ -173,11 +170,10 @@ header {
 .footer .social-icons a {
     color: #fff;
     font-size: 20px;
-    text-decoration: none; /* Remove underline */
-    transition: color 0.3s ease; /* Smooth color transition on hover */
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .footer .social-icons a:hover {
-    color: #ffd700; /* Change color on hover */
+    color: #ffd700;
 }
-
